@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نتائج الامتحانات - كلية الطب البشري جامعة حمص</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.0/dist/JsBarcode.all.min.js"></script>
+
+    <style>
+        /* --- Global Styles & Variables --- */
+        :root {
+            --primary-color: #0056b3;
+            --secondary-color: #007bff;
+            --accent-color: #66b3ff;
+            --light-bg: #f8f9fa;
+            --white: #ffffff;
+            --card-bg: #ffffff;
+            --text-dark: #212529;
+            --text-muted: #6c757d;
+            --success-color: #198754;
+            --danger-color: #dc3545;
+            --warning-color: #ffc107;
+            --border-color: #dee2e6;
+            --shadow-sm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            --shadow-md: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            --font-main: 'Cairo', sans-serif;
+            --sidebar-width: 280px;
+        }
+
+        /* --- Dark Mode Variables --- */
+        [data-theme="dark"] {
+            --primary-color: #3d8bfd;
+            --secondary-color: #0d6efd;
+            --accent-color: #0dcaf0;
+            --light-bg: #121212;
+            --white: #1e1e1e;
+            --card-bg: #242526;
+            --text-dark: #e4e6eb;
+            --text-muted: #b0b3b8;
+            --border-color: #393a3b;
+            --shadow-sm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.5);
+            --shadow-md: 0 0.5rem 1rem rgba(0, 0, 0, 0.5);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* --- News Ticker --- */
+        .news-ticker {
+            background-color: #ff5722;
+            color: white;
+            padding: 8px 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .news-ticker-content {
+            display: flex;
+            animation: ticker 20s linear infinite;
+            white-space: nowrap;
+        }
+
+        .news-ticker-item {
+            padding: 0 50px;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        @keyframes ticker {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        /* --- Header --- */
+        .main-header {
+            background: linear-gradient(135deg, #0056b3, #007bff); /* Keep header blue even in dark mode */
+            color: #ffffff;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: var(--shadow-md);
+        }
+
+        .main-header i {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+
+        .main-header h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .main-header p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* --- Sidebar --- */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: var(--sidebar-width);
+            height: 100vh;
+            background-color: var(--card-bg);
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            transition: right 0.3s ease;
+            overflow-y: auto;
+        }
+
+        .sidebar.open {
+            right: 0;
+        }
+
+        .sidebar-header {
+            background: linear-gradient(135deg, #0056b3, #007bff);
+            color: #ffffff;
+            padding: 1.5rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .sidebar-close {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .sidebar-menu {
+            padding: 1.5rem 0;
+        }
+
+        .sidebar-menu-item {
+            display: block;
+            padding: 1rem 1.5rem;
+            color: var(--text-dark);
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .sidebar-menu-item:hover {
+            background-color: var(--light-bg);
+        }
+
+        .sidebar-menu-item i {
+            margin-left: 0.5rem;
+        }
+
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            display: none;
+        }
+
+        .sidebar-overlay.show {
+            display: block;
+        }
+
+        .menu-toggle {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            background: var(--primary-color);
+            color: #ffffff;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 1001;
+            box-shadow: var(--shadow-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* --- Main Content --- */
+        .main-content {
+            padding: 2rem 0;
+            margin-top: 4rem;
+            min-height: 60vh;
+        }
+
+        /* --- Page Content --- */
+        .page-content {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .page-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* --- Search Section --- */
+        .search-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 2rem;
+            color: var(--text-dark);
+        }
+
+        .search-card h2 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .search-options {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .search-options label {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .search-form {
+            display: none;
+        }
+
+        .search-form.active {
+            display: block;
+        }
+
+        .input-group {
+            display: flex;
+            justify-content: center;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .input-group input {
+            flex: 1;
+            min-width: 200px;
+            padding: 0.8rem 1rem;
+            border: 1px solid var(--border-color);
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-family: var(--font-main);
+            transition: all 0.3s ease;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(102, 179, 255, 0.25);
+        }
+
+        .input-group button {
+            padding: 0.8rem 2rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: #ffffff;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            position: relative;
+        }
+
+        .input-group button:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* --- Loading Spinner --- */
+        .loading-spinner {
+            display: none; /* Hidden by default */
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .btn-loading .btn-text {
+            display: none;
+        }
+        
+        .btn-loading .loading-spinner {
+            display: inline-block;
+        }
+
+        /* --- Exam Schedule (New Card Layout) --- */
+        .schedule-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .schedule-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+            border-top: 5px solid var(--primary-color);
+            transition: transform 0.3s;
+        }
+        
+        .schedule-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .schedule-card.completed {
+            border-top-color: var(--success-color);
+            position: relative;
+        }
+
+        .schedule-card.completed::after {
+            content: '\f00c'; /* Checkmark */
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: var(--success-color);
+            font-size: 1.5rem;
+            background: rgba(255,255,255,0.8);
+            border-radius: 50%;
+            padding: 5px;
+        }
+
+        .schedule-header {
+            background-color: var(--light-bg);
+            padding: 1rem;
+            text-align: center;
+            font-weight: 700;
+            color: var(--primary-color);
+            border-bottom: 1px solid var(--border-color);
+            font-size: 1.1rem;
+        }
+
+        .schedule-body {
+            padding: 1rem;
+        }
+
+        .schedule-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.8rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .schedule-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .schedule-label {
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .schedule-value {
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        /* --- PDF Download --- */
+        .pdf-download-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .pdf-download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: #ffffff;
+            border: none;
+            border-radius: 10px;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        /* --- Exam Notes (New Layout) --- */
+        .notes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .note-preview-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 2rem 1.5rem;
+            box-shadow: var(--shadow-md);
+            text-align: center;
+            transition: transform 0.3s;
+            position: relative;
+            border: 2px solid transparent;
+        }
+
+        .note-preview-card.passed {
+            border-color: var(--success-color);
+        }
+        
+        .note-preview-card.passed .passed-badge {
+            display: block;
+        }
+
+        .passed-badge {
+            display: none;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: var(--success-color);
+            font-size: 1.5rem;
+        }
+
+        .note-preview-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .note-preview-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--text-dark);
+        }
+
+        .note-details-btn {
+            background-color: var(--light-bg);
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+            padding: 0.5rem 1.5rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .note-details-btn:hover {
+            background-color: var(--primary-color);
+            color: #ffffff;
+        }
+
+        /* Modal for Note Details */
+        .note-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        .note-modal.show {
+            display: flex;
+        }
+
+        .note-modal-content {
+            background: var(--card-bg);
+            width: 100%;
+            max-width: 600px;
+            max-height: 85vh;
+            border-radius: 15px;
+            padding: 2rem;
+            position: relative;
+            overflow-y: auto;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .note-modal-close {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        .note-full-content {
+            white-space: pre-line;
+            line-height: 1.8;
+            margin-top: 1rem;
+            color: var(--text-dark);
+        }
+
+        /* --- Important Links --- */
+        .links-container {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .link-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 1rem 1.5rem;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: var(--text-dark);
+        }
+
+        .link-item:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .link-icon {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .link-text {
+            flex: 1;
+            font-weight: 600;
+        }
+
+        .link-url {
+            color: var(--primary-color);
+            font-size: 0.9rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 200px;
+        }
+
+        /* --- Settings Page --- */
+        .settings-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 1.5rem;
+        }
+
+        .settings-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .settings-row:last-child {
+            border-bottom: none;
+        }
+
+        .settings-label {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        /* Switch Toggle */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider { background-color: var(--primary-color); }
+        input:checked + .slider:before { transform: translateX(26px); }
+
+        .credits-box {
+            background: var(--light-bg);
+            border: 1px dashed var(--primary-color);
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 2rem;
+        }
+        
+        .credits-box h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .credits-box p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* --- Results Styling --- */
+        #resultsContainer {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .search-result-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+            text-align: center;
+            margin-bottom: 2rem;
+            border-top: 4px solid var(--secondary-color);
+        }
+
+        .search-result-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .student-info {
+            margin-bottom: 1.5rem;
+        }
+
+        .student-info p {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+        }
+
+        .student-info p span {
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .get-grades-btn {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: #ffffff;
+            border: none;
+            border-radius: 10px;
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .get-grades-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .grades-container {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .grades-container.show {
+            display: block;
+        }
+        
+        /* Print Button */
+        .print-btn-container {
+            text-align: center;
+            margin-top: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .print-btn {
+            background: var(--text-dark);
+            color: var(--card-bg);
+            border: 1px solid var(--text-dark);
+            padding: 0.8rem 2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+        }
+        
+        .print-btn:hover {
+            background: transparent;
+            color: var(--text-dark);
+        }
+
+        /* --- Subject Cards --- */
+        .subjects-cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .subject-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-md);
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5rem;
+            border-right: 5px solid;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            color: var(--text-dark);
+        }
+        
+        .subject-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.2);
+        }
+
+        .subject-card-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            opacity: 0.8;
+            flex-shrink: 0;
+        }
+
+        .subject-card-content {
+            flex: 1;
+        }
+
+        .subject-name {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.5rem;
+        }
+
+        .subject-details {
+            display: grid;
+            gap: 0.7rem;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.95rem;
+        }
+
+        .detail-label {
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .detail-value {
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .no-grades-message {
+            color: var(--warning-color);
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-top: 0.5rem;
+        }
+
+        /* --- Grade and Result Colors --- */
+        .grade-excellent, .result-pass { color: var(--success-color); }
+        .grade-very-good { color: #28a745; }
+        .grade-good { color: #17a2b8; }
+        .grade-medium { color: #fd7e14; }
+        .grade-poor { color: #dc3545; }
+        .grade-fail, .result-fail { color: #721c24; }
+
+        /* --- Card Border Colors --- */
+        .border-pass { border-right-color: var(--success-color); }
+        .border-fail { border-right-color: var(--danger-color); }
+        .border-pending { border-right-color: var(--warning-color); }
+
+        .summary-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-md);
+            text-align: center;
+            margin-top: 1.5rem;
+            border-top: 4px solid var(--secondary-color);
+        }
+
+        .summary-card h4 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .summary-data {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .summary-item {
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .summary-item p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .summary-item span {
+            display: block;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        
+        .error-message {
+            background: rgba(220, 53, 69, 0.1);
+            color: var(--danger-color);
+            padding: 1.2rem;
+            border: 1px solid var(--danger-color);
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        /* --- Section Titles --- */
+        .results-section {
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            padding: 0 0.5rem;
+        }
+
+        /* --- Footer --- */
+        .main-footer {
+            text-align: center;
+            padding: 1.5rem 0;
+            background: var(--card-bg);
+            color: var(--text-muted);
+            border-top: 1px solid var(--border-color);
+            margin-top: auto;
+            font-size: 0.9rem;
+        }
+
+        /* --- Notification Card Style --- */
+        .notification-card {
+            background: linear-gradient(135deg, #dc3545, #b02a37); /* لون أحمر */
+            color: #fff;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-md);
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            animation: slideInDown 0.6s ease-out;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+
+        .notification-icon-box {
+            background: rgba(255, 255, 255, 0.25);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            flex-shrink: 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .notification-text h3 {
+            font-size: 1.3rem;
+            font-weight: 800;
+            margin-bottom: 0.3rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .notification-text p {
+            font-size: 1.1rem;
+            margin: 0;
+            font-weight: 600;
+        }
+
+        @keyframes slideInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            .container { padding: 0 10px; }
+            .main-header { padding: 1.5rem 0; }
+            .search-options { flex-direction: column; gap: 0.8rem; align-items: center; }
+            .input-group { flex-direction: column; }
+            .input-group input, .input-group button { width: 100%; min-width: unset; }
+            .subjects-cards-container { grid-template-columns: 1fr; }
+            .schedule-grid { grid-template-columns: 1fr; }
+            .notes-grid { grid-template-columns: 1fr; }
+            .sidebar { width: 100%; }
+            .notification-card { flex-direction: column; text-align: center; }
+        }
+
+        /* --- Print Styles --- */
+        @media print {
+            body { background-color: #fff; color: #000; font-family: serif; }
+            .news-ticker, .sidebar, .menu-toggle, .main-header, .main-footer, 
+            .search-card, .pdf-download-card, .notes-container, 
+            .links-container, .get-grades-btn, .print-btn-container, 
+            .schedule-grid, .notes-grid, .note-modal, .sidebar-overlay,
+            .summary-card, .subjects-cards-container, .section-title, .search-result-card h3,
+            .notification-card /* Hide notification in print */
+            { display: none !important; }
+            
+            .main-content { margin-top: 0; padding: 0; }
+            .container { max-width: 100%; padding: 0; margin: 0; }
+            .page-content { display: block !important; }
+        }
+    </style>
+</head>
+<body>
+    <div class="news-ticker">
+        <div class="container">
+            <div class="news-ticker-content">
+                <div class="news-ticker-item"><i class="fas fa-bullhorn"></i> صدور درجات الكيمياء الحيوية و البيولوجيا الجزيئية - عملي</div>
+                <div class="news-ticker-item"><i class="fas fa-bullhorn"></i> صدور درجات التشريح الوصفي 1 - عملي</div>
+                <div class="news-ticker-item"><i class="fas fa-bullhorn"></i> صدور درجات النسج العام - عملي</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <button class="sidebar-close" id="sidebarClose"><i class="fas fa-times"></i></button>
+            <h3>قائمة الصفحات</h3>
+        </div>
+        <div class="sidebar-menu">
+            <a href="#" class="sidebar-menu-item" data-page="results"><i class="fas fa-search"></i> نتائج الامتحانات</a>
+            <a href="#" class="sidebar-menu-item" data-page="schedule"><i class="fas fa-calendar-alt"></i> برنامج الامتحان</a>
+            <a href="#" class="sidebar-menu-item" data-page="distribution"><i class="fas fa-users"></i> توزيع الطلاب</a>
+            <a href="#" class="sidebar-menu-item" data-page="notes"><i class="fas fa-sticky-note"></i> ملاحظات هامة</a>
+            <a href="#" class="sidebar-menu-item" data-page="links"><i class="fas fa-link"></i> روابط مهمة</a>
+            <a href="#" class="sidebar-menu-item" data-page="settings"><i class="fas fa-cog"></i> الإعدادات</a>
+        </div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
+
+    <header class="main-header">
+        <div class="container">
+            <i class="fas fa-university"></i>
+            <h1>كلية الطب البشري</h1>
+            <p>جامعة حمص - نتائج الامتحانات - السنة الثانية</p>
+            <p>الدورة الفصلية الأولى</p>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            
+            <div class="page-content active" id="resultsPage">
+                
+                <div class="notification-card">
+                    <div class="notification-icon-box">
+                        <i class="fas fa-bullhorn"></i>
+                    </div>
+                    <div class="notification-text">
+                        <h3>إعلان هام</h3>
+                        <p>هام: صدور درجات مادة النسج العملي</p>
+                    </div>
+                </div>
+                <section class="search-card">
+                    <h2><i class="fas fa-search"></i> البحث عن النتيجة</h2>
+                    <div class="search-options">
+                        <label><input type="radio" name="searchType" value="id" checked> البحث بالرقم الجامعي</label>
+                        <label><input type="radio" name="searchType" value="name"> البحث بالاسم</label>
+                    </div>
+
+                    <form id="searchByIdForm" class="search-form active">
+                        <div class="input-group">
+                            <input type="text" id="uniIdInput" placeholder="أدخل رقمك الجامعي" required>
+                            <button type="submit" id="searchIdBtn">
+                                <span class="btn-text"><i class="fas fa-search"></i> بحث</span>
+                                <div class="loading-spinner"></div>
+                            </button>
+                        </div>
+                    </form>
+
+                    <form id="searchByNameForm" class="search-form">
+                        <div class="input-group">
+                            <input type="text" id="nameInput" placeholder="الاسم و النسبة" required>
+                            <input type="text" id="fatherNameInput" placeholder="اسم الأب" required>
+                            <button type="submit" id="searchNameBtn">
+                                <span class="btn-text"><i class="fas fa-search"></i> بحث</span>
+                                <div class="loading-spinner"></div>
+                            </button>
+                        </div>
+                    </form>
+                </section>
+
+                <div id="resultsContainer"></div>
+            </div>
+
+            <div class="page-content" id="schedulePage">
+                <div class="search-card" style="background: none; box-shadow: none; padding: 0;">
+                    <h2 style="background: var(--card-bg); padding: 1rem; border-radius: 15px; box-shadow: var(--shadow-md);"><i class="fas fa-calendar-alt"></i> برنامج الامتحان</h2>
+                    <div id="scheduleContainer" class="schedule-grid"></div>
+                </div>
+            </div>
+
+            <div class="page-content" id="distributionPage">
+                <div class="pdf-download-card">
+                    <h2><i class="fas fa-users"></i> توزيع الطلاب</h2>
+                    <p>انقر على الزر أدناه لتحميل ملف توزيع الطلاب</p>
+                    <button class="pdf-download-btn" id="downloadPdfBtn">
+                        <span class="btn-text"><i class="fas fa-download"></i> تحميل ملف 777</span>
+                        <div class="loading-spinner"></div>
+                    </button>
+                </div>
+            </div>
+
+            <div class="page-content" id="notesPage">
+                <div class="search-card" style="background: none; box-shadow: none; padding: 0;">
+                    <h2 style="background: var(--card-bg); padding: 1rem; border-radius: 15px; box-shadow: var(--shadow-md);"><i class="fas fa-sticky-note"></i> ملاحظات هامة لكل امتحان</h2>
+                    <div id="notesContainer" class="notes-grid"></div>
+                </div>
+            </div>
+
+            <div class="note-modal" id="noteModal">
+                <div class="note-modal-content">
+                    <button class="note-modal-close" id="closeNoteModal"><i class="fas fa-times"></i></button>
+                    <div id="modalContent"></div>
+                </div>
+            </div>
+
+            <div class="page-content" id="linksPage">
+                <div class="search-card">
+                    <h2><i class="fas fa-link"></i> قنوات و روابط مهمة</h2>
+                </div>
+                <div class="links-container">
+                    <a href="https://homs-univ.edu.sy/med" target="_blank" class="link-item">
+                        <div class="link-icon"><i class="fas fa-globe"></i></div>
+                        <div class="link-text">موقع الكلية</div>
+                        <span class="link-url">homs-univ.edu.sy/med</span>
+                    </a>
+                    <a href="https://t.me/+uPBNFUgj76wyZGFk" target="_blank" class="link-item">
+                        <div class="link-icon"><i class="fab fa-telegram"></i></div>
+                        <div class="link-text">رابط الفريق العلمي</div>
+                        <span class="link-url">t.me/+uPBNFUgj76wyZGFk</span>
+                    </a>
+                    <a href="https://t.me/histology_2030" target="_blank" class="link-item">
+                        <div class="link-icon"><i class="fab fa-telegram"></i></div>
+                        <div class="link-text">قناة الفريق العلمي لمادة النسج</div>
+                        <span class="link-url">t.me/histology_2030</span>
+                    </a>
+                    <a href="https://t.me/+yaVncEl_kwlmNjU0" target="_blank" class="link-item">
+                        <div class="link-icon"><i class="fab fa-telegram"></i></div>
+                        <div class="link-text">قناة الفريق العلمي لمادة التشريح</div>
+                        <span class="link-url">t.me/+yaVncEl_kwlmNjU0</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="page-content" id="settingsPage">
+                <div class="search-card">
+                    <h2><i class="fas fa-cog"></i> الإعدادات</h2>
+                    <div class="settings-card">
+                        <div class="settings-row">
+                            <span class="settings-label"><i class="fas fa-moon"></i> الوضع الليلي</span>
+                            <label class="switch">
+                                <input type="checkbox" id="darkModeToggle">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="credits-box">
+                        <h4>صمم هذا الموقع بواسطة ودود الشعبان</h4>
+                        <p>لا يعتبر هذا الموقع رسمي و انما هو فكرة لمساعدة الطلاب في استخلاص النتائج بصورة سليمة</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+    
+    <footer class="main-footer">
+        <div class="container">
+            <p>&copy; 2026 جامعة حمص - كلية الطب البشري. جميع الحقوق محفوظة.</p>
+        </div>
+    </footer>
+
+    <script src="students.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
