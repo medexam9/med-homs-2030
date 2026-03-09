@@ -4357,24 +4357,24 @@ const studentData = [
         "scores": {
             "الكيمياء الحيوية و البيولوجيا الجزيئية": {
                 "practical": 27,
-                "theoretical": 0
+                "theoretical": 56
             },
             "علم النسج العام": {
                 "practical": 18,
-                "theoretical": 0
+                "theoretical": 55
             },
             "التشريح الوصفي 1": {
                 "practical": 24,
                 "theoretical": 0
             },
             "علم النفس السلوكي": {
-                "theoretical": 0
+                "theoretical": 69
             },
             "اللغة العربية": {
-                "theoretical": 0
+                "theoretical": 90
             },
             "اللغة الانكليزية 3": {
-                "theoretical": 0
+                "theoretical": 75
             }
         }
     },
@@ -11433,24 +11433,24 @@ const studentData = [
         "scores": {
             "الكيمياء الحيوية و البيولوجيا الجزيئية": {
                 "practical": 27,
-                "theoretical": 0
+                "theoretical": 57
             },
             "علم النسج العام": {
                 "practical": 22,
-                "theoretical": 0
+                "theoretical": 51
             },
             "التشريح الوصفي 1": {
                 "practical": 7,
                 "theoretical": 0
             },
             "علم النفس السلوكي": {
-                "theoretical": 0
+                "theoretical": 72
             },
             "اللغة العربية": {
-                "theoretical": 0
+                "theoretical": 94
             },
             "اللغة الانكليزية 3": {
-                "theoretical": 0
+                "theoretical": 90
             }
         }
     },
@@ -22801,24 +22801,24 @@ const studentData = [
         "scores": {
             "الكيمياء الحيوية و البيولوجيا الجزيئية": {
                 "practical": 19,
-                "theoretical": 0
+                "theoretical": 35
             },
             "علم النسج العام": {
                 "practical": 12,
-                "theoretical": 0
+                "theoretical": 41
             },
             "التشريح الوصفي 1": {
                 "practical": 19,
                 "theoretical": 0
             },
             "علم النفس السلوكي": {
-                "theoretical": 0
+                "theoretical": 55
             },
             "اللغة العربية": {
-                "theoretical": 0
+                "theoretical": 92
             },
             "اللغة الانكليزية 3": {
-                "theoretical": 0
+                "theoretical": 89
             }
         }
     },
@@ -22830,24 +22830,24 @@ const studentData = [
         "scores": {
             "الكيمياء الحيوية و البيولوجيا الجزيئية": {
                 "practical": 25,
-                "theoretical": 0
+                "theoretical": 62
             },
             "علم النسج العام": {
                 "practical": 17,
-                "theoretical": 0
+                "theoretical": 57
             },
             "التشريح الوصفي 1": {
                 "practical": 21,
                 "theoretical": 0
             },
             "علم النفس السلوكي": {
-                "theoretical": 0
+                "theoretical": 70
             },
             "اللغة العربية": {
-                "theoretical": 0
+                "theoretical": 84
             },
             "اللغة الانكليزية 3": {
-                "theoretical": 0
+                "theoretical": 70
             }
         }
     },
@@ -23085,3 +23085,4 @@ const studentData = [
     }
 
 ];
+
