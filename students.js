@@ -22250,24 +22250,24 @@ const studentData = [
         "scores": {
             "الكيمياء الحيوية و البيولوجيا الجزيئية": {
                 "practical": 29,
-                "theoretical": 0
+                "theoretical": 68
             },
             "علم النسج العام": {
                 "practical": 21,
-                "theoretical": 0
+                "theoretical": 64
             },
             "التشريح الوصفي 1": {
                 "practical": 27,
                 "theoretical": 0
             },
             "علم النفس السلوكي": {
-                "theoretical": 0
+                "theoretical": 89
             },
             "اللغة العربية": {
-                "theoretical": 0
+                "theoretical": 90
             },
             "اللغة الانكليزية 3": {
-                "theoretical": 0
+                "theoretical": 70
             }
         }
     },
@@ -23083,4 +23083,5 @@ const studentData = [
             }
         }
     }
+
 ];
